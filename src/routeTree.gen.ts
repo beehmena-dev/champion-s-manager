@@ -10,33 +10,328 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedSavesSaveIdRouteImport } from './routes/_authenticated/saves.$saveId'
+import { Route as AuthenticatedSavesSaveIdIndexRouteImport } from './routes/_authenticated/saves.$saveId.index'
+import { Route as AuthenticatedSavesSaveIdAcademyRouteImport } from './routes/_authenticated/saves.$saveId.academy'
+import { Route as AuthenticatedSavesSaveIdAnalysisRouteImport } from './routes/_authenticated/saves.$saveId.analysis'
+import { Route as AuthenticatedSavesSaveIdBoardRouteImport } from './routes/_authenticated/saves.$saveId.board'
+import { Route as AuthenticatedSavesSaveIdCalendarRouteImport } from './routes/_authenticated/saves.$saveId.calendar'
+import { Route as AuthenticatedSavesSaveIdCareerRouteImport } from './routes/_authenticated/saves.$saveId.career'
+import { Route as AuthenticatedSavesSaveIdCupRouteImport } from './routes/_authenticated/saves.$saveId.cup'
+import { Route as AuthenticatedSavesSaveIdFinancesRouteImport } from './routes/_authenticated/saves.$saveId.finances'
+import { Route as AuthenticatedSavesSaveIdMarketRouteImport } from './routes/_authenticated/saves.$saveId.market'
+import { Route as AuthenticatedSavesSaveIdMedicalRouteImport } from './routes/_authenticated/saves.$saveId.medical'
+import { Route as AuthenticatedSavesSaveIdNewsRouteImport } from './routes/_authenticated/saves.$saveId.news'
+import { Route as AuthenticatedSavesSaveIdSettingsRouteImport } from './routes/_authenticated/saves.$saveId.settings'
+import { Route as AuthenticatedSavesSaveIdSetupRouteImport } from './routes/_authenticated/saves.$saveId.setup'
+import { Route as AuthenticatedSavesSaveIdSquadRouteImport } from './routes/_authenticated/saves.$saveId.squad'
+import { Route as AuthenticatedSavesSaveIdStaffRouteImport } from './routes/_authenticated/saves.$saveId.staff'
+import { Route as AuthenticatedSavesSaveIdTableRouteImport } from './routes/_authenticated/saves.$saveId.table'
+import { Route as AuthenticatedSavesSaveIdTacticsRouteImport } from './routes/_authenticated/saves.$saveId.tactics'
+import { Route as AuthenticatedSavesSaveIdClubsClubIdRouteImport } from './routes/_authenticated/saves.$saveId.clubs.$clubId'
+import { Route as AuthenticatedSavesSaveIdCompetitionsCompetitionIdRouteImport } from './routes/_authenticated/saves.$saveId.competitions.$competitionId'
+import { Route as AuthenticatedSavesSaveIdPlayersPlayerIdRouteImport } from './routes/_authenticated/saves.$saveId.players.$playerId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSavesSaveIdRoute =
+  AuthenticatedSavesSaveIdRouteImport.update({
+    id: '/saves/$saveId',
+    path: '/saves/$saveId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSavesSaveIdIndexRoute =
+  AuthenticatedSavesSaveIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdAcademyRoute =
+  AuthenticatedSavesSaveIdAcademyRouteImport.update({
+    id: '/academy',
+    path: '/academy',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdAnalysisRoute =
+  AuthenticatedSavesSaveIdAnalysisRouteImport.update({
+    id: '/analysis',
+    path: '/analysis',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdBoardRoute =
+  AuthenticatedSavesSaveIdBoardRouteImport.update({
+    id: '/board',
+    path: '/board',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdCalendarRoute =
+  AuthenticatedSavesSaveIdCalendarRouteImport.update({
+    id: '/calendar',
+    path: '/calendar',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdCareerRoute =
+  AuthenticatedSavesSaveIdCareerRouteImport.update({
+    id: '/career',
+    path: '/career',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdCupRoute =
+  AuthenticatedSavesSaveIdCupRouteImport.update({
+    id: '/cup',
+    path: '/cup',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdFinancesRoute =
+  AuthenticatedSavesSaveIdFinancesRouteImport.update({
+    id: '/finances',
+    path: '/finances',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdMarketRoute =
+  AuthenticatedSavesSaveIdMarketRouteImport.update({
+    id: '/market',
+    path: '/market',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdMedicalRoute =
+  AuthenticatedSavesSaveIdMedicalRouteImport.update({
+    id: '/medical',
+    path: '/medical',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdNewsRoute =
+  AuthenticatedSavesSaveIdNewsRouteImport.update({
+    id: '/news',
+    path: '/news',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdSettingsRoute =
+  AuthenticatedSavesSaveIdSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdSetupRoute =
+  AuthenticatedSavesSaveIdSetupRouteImport.update({
+    id: '/setup',
+    path: '/setup',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdSquadRoute =
+  AuthenticatedSavesSaveIdSquadRouteImport.update({
+    id: '/squad',
+    path: '/squad',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdStaffRoute =
+  AuthenticatedSavesSaveIdStaffRouteImport.update({
+    id: '/staff',
+    path: '/staff',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdTableRoute =
+  AuthenticatedSavesSaveIdTableRouteImport.update({
+    id: '/table',
+    path: '/table',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdTacticsRoute =
+  AuthenticatedSavesSaveIdTacticsRouteImport.update({
+    id: '/tactics',
+    path: '/tactics',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdClubsClubIdRoute =
+  AuthenticatedSavesSaveIdClubsClubIdRouteImport.update({
+    id: '/clubs/$clubId',
+    path: '/clubs/$clubId',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdCompetitionsCompetitionIdRoute =
+  AuthenticatedSavesSaveIdCompetitionsCompetitionIdRouteImport.update({
+    id: '/competitions/$competitionId',
+    path: '/competitions/$competitionId',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
+const AuthenticatedSavesSaveIdPlayersPlayerIdRoute =
+  AuthenticatedSavesSaveIdPlayersPlayerIdRouteImport.update({
+    id: '/players/$playerId',
+    path: '/players/$playerId',
+    getParentRoute: () => AuthenticatedSavesSaveIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/saves/$saveId': typeof AuthenticatedSavesSaveIdRouteWithChildren
+  '/saves/$saveId/academy': typeof AuthenticatedSavesSaveIdAcademyRoute
+  '/saves/$saveId/analysis': typeof AuthenticatedSavesSaveIdAnalysisRoute
+  '/saves/$saveId/board': typeof AuthenticatedSavesSaveIdBoardRoute
+  '/saves/$saveId/calendar': typeof AuthenticatedSavesSaveIdCalendarRoute
+  '/saves/$saveId/career': typeof AuthenticatedSavesSaveIdCareerRoute
+  '/saves/$saveId/cup': typeof AuthenticatedSavesSaveIdCupRoute
+  '/saves/$saveId/finances': typeof AuthenticatedSavesSaveIdFinancesRoute
+  '/saves/$saveId/market': typeof AuthenticatedSavesSaveIdMarketRoute
+  '/saves/$saveId/medical': typeof AuthenticatedSavesSaveIdMedicalRoute
+  '/saves/$saveId/news': typeof AuthenticatedSavesSaveIdNewsRoute
+  '/saves/$saveId/settings': typeof AuthenticatedSavesSaveIdSettingsRoute
+  '/saves/$saveId/setup': typeof AuthenticatedSavesSaveIdSetupRoute
+  '/saves/$saveId/squad': typeof AuthenticatedSavesSaveIdSquadRoute
+  '/saves/$saveId/staff': typeof AuthenticatedSavesSaveIdStaffRoute
+  '/saves/$saveId/table': typeof AuthenticatedSavesSaveIdTableRoute
+  '/saves/$saveId/tactics': typeof AuthenticatedSavesSaveIdTacticsRoute
+  '/saves/$saveId/': typeof AuthenticatedSavesSaveIdIndexRoute
+  '/saves/$saveId/clubs/$clubId': typeof AuthenticatedSavesSaveIdClubsClubIdRoute
+  '/saves/$saveId/competitions/$competitionId': typeof AuthenticatedSavesSaveIdCompetitionsCompetitionIdRoute
+  '/saves/$saveId/players/$playerId': typeof AuthenticatedSavesSaveIdPlayersPlayerIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/saves/$saveId/academy': typeof AuthenticatedSavesSaveIdAcademyRoute
+  '/saves/$saveId/analysis': typeof AuthenticatedSavesSaveIdAnalysisRoute
+  '/saves/$saveId/board': typeof AuthenticatedSavesSaveIdBoardRoute
+  '/saves/$saveId/calendar': typeof AuthenticatedSavesSaveIdCalendarRoute
+  '/saves/$saveId/career': typeof AuthenticatedSavesSaveIdCareerRoute
+  '/saves/$saveId/cup': typeof AuthenticatedSavesSaveIdCupRoute
+  '/saves/$saveId/finances': typeof AuthenticatedSavesSaveIdFinancesRoute
+  '/saves/$saveId/market': typeof AuthenticatedSavesSaveIdMarketRoute
+  '/saves/$saveId/medical': typeof AuthenticatedSavesSaveIdMedicalRoute
+  '/saves/$saveId/news': typeof AuthenticatedSavesSaveIdNewsRoute
+  '/saves/$saveId/settings': typeof AuthenticatedSavesSaveIdSettingsRoute
+  '/saves/$saveId/setup': typeof AuthenticatedSavesSaveIdSetupRoute
+  '/saves/$saveId/squad': typeof AuthenticatedSavesSaveIdSquadRoute
+  '/saves/$saveId/staff': typeof AuthenticatedSavesSaveIdStaffRoute
+  '/saves/$saveId/table': typeof AuthenticatedSavesSaveIdTableRoute
+  '/saves/$saveId/tactics': typeof AuthenticatedSavesSaveIdTacticsRoute
+  '/saves/$saveId': typeof AuthenticatedSavesSaveIdIndexRoute
+  '/saves/$saveId/clubs/$clubId': typeof AuthenticatedSavesSaveIdClubsClubIdRoute
+  '/saves/$saveId/competitions/$competitionId': typeof AuthenticatedSavesSaveIdCompetitionsCompetitionIdRoute
+  '/saves/$saveId/players/$playerId': typeof AuthenticatedSavesSaveIdPlayersPlayerIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/saves/$saveId': typeof AuthenticatedSavesSaveIdRouteWithChildren
+  '/_authenticated/saves/$saveId/academy': typeof AuthenticatedSavesSaveIdAcademyRoute
+  '/_authenticated/saves/$saveId/analysis': typeof AuthenticatedSavesSaveIdAnalysisRoute
+  '/_authenticated/saves/$saveId/board': typeof AuthenticatedSavesSaveIdBoardRoute
+  '/_authenticated/saves/$saveId/calendar': typeof AuthenticatedSavesSaveIdCalendarRoute
+  '/_authenticated/saves/$saveId/career': typeof AuthenticatedSavesSaveIdCareerRoute
+  '/_authenticated/saves/$saveId/cup': typeof AuthenticatedSavesSaveIdCupRoute
+  '/_authenticated/saves/$saveId/finances': typeof AuthenticatedSavesSaveIdFinancesRoute
+  '/_authenticated/saves/$saveId/market': typeof AuthenticatedSavesSaveIdMarketRoute
+  '/_authenticated/saves/$saveId/medical': typeof AuthenticatedSavesSaveIdMedicalRoute
+  '/_authenticated/saves/$saveId/news': typeof AuthenticatedSavesSaveIdNewsRoute
+  '/_authenticated/saves/$saveId/settings': typeof AuthenticatedSavesSaveIdSettingsRoute
+  '/_authenticated/saves/$saveId/setup': typeof AuthenticatedSavesSaveIdSetupRoute
+  '/_authenticated/saves/$saveId/squad': typeof AuthenticatedSavesSaveIdSquadRoute
+  '/_authenticated/saves/$saveId/staff': typeof AuthenticatedSavesSaveIdStaffRoute
+  '/_authenticated/saves/$saveId/table': typeof AuthenticatedSavesSaveIdTableRoute
+  '/_authenticated/saves/$saveId/tactics': typeof AuthenticatedSavesSaveIdTacticsRoute
+  '/_authenticated/saves/$saveId/': typeof AuthenticatedSavesSaveIdIndexRoute
+  '/_authenticated/saves/$saveId/clubs/$clubId': typeof AuthenticatedSavesSaveIdClubsClubIdRoute
+  '/_authenticated/saves/$saveId/competitions/$competitionId': typeof AuthenticatedSavesSaveIdCompetitionsCompetitionIdRoute
+  '/_authenticated/saves/$saveId/players/$playerId': typeof AuthenticatedSavesSaveIdPlayersPlayerIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/saves/$saveId'
+    | '/saves/$saveId/academy'
+    | '/saves/$saveId/analysis'
+    | '/saves/$saveId/board'
+    | '/saves/$saveId/calendar'
+    | '/saves/$saveId/career'
+    | '/saves/$saveId/cup'
+    | '/saves/$saveId/finances'
+    | '/saves/$saveId/market'
+    | '/saves/$saveId/medical'
+    | '/saves/$saveId/news'
+    | '/saves/$saveId/settings'
+    | '/saves/$saveId/setup'
+    | '/saves/$saveId/squad'
+    | '/saves/$saveId/staff'
+    | '/saves/$saveId/table'
+    | '/saves/$saveId/tactics'
+    | '/saves/$saveId/'
+    | '/saves/$saveId/clubs/$clubId'
+    | '/saves/$saveId/competitions/$competitionId'
+    | '/saves/$saveId/players/$playerId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/saves/$saveId/academy'
+    | '/saves/$saveId/analysis'
+    | '/saves/$saveId/board'
+    | '/saves/$saveId/calendar'
+    | '/saves/$saveId/career'
+    | '/saves/$saveId/cup'
+    | '/saves/$saveId/finances'
+    | '/saves/$saveId/market'
+    | '/saves/$saveId/medical'
+    | '/saves/$saveId/news'
+    | '/saves/$saveId/settings'
+    | '/saves/$saveId/setup'
+    | '/saves/$saveId/squad'
+    | '/saves/$saveId/staff'
+    | '/saves/$saveId/table'
+    | '/saves/$saveId/tactics'
+    | '/saves/$saveId'
+    | '/saves/$saveId/clubs/$clubId'
+    | '/saves/$saveId/competitions/$competitionId'
+    | '/saves/$saveId/players/$playerId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/saves/$saveId'
+    | '/_authenticated/saves/$saveId/academy'
+    | '/_authenticated/saves/$saveId/analysis'
+    | '/_authenticated/saves/$saveId/board'
+    | '/_authenticated/saves/$saveId/calendar'
+    | '/_authenticated/saves/$saveId/career'
+    | '/_authenticated/saves/$saveId/cup'
+    | '/_authenticated/saves/$saveId/finances'
+    | '/_authenticated/saves/$saveId/market'
+    | '/_authenticated/saves/$saveId/medical'
+    | '/_authenticated/saves/$saveId/news'
+    | '/_authenticated/saves/$saveId/settings'
+    | '/_authenticated/saves/$saveId/setup'
+    | '/_authenticated/saves/$saveId/squad'
+    | '/_authenticated/saves/$saveId/staff'
+    | '/_authenticated/saves/$saveId/table'
+    | '/_authenticated/saves/$saveId/tactics'
+    | '/_authenticated/saves/$saveId/'
+    | '/_authenticated/saves/$saveId/clubs/$clubId'
+    | '/_authenticated/saves/$saveId/competitions/$competitionId'
+    | '/_authenticated/saves/$saveId/players/$playerId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +343,245 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/saves/$saveId': {
+      id: '/_authenticated/saves/$saveId'
+      path: '/saves/$saveId'
+      fullPath: '/saves/$saveId'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/saves/$saveId/': {
+      id: '/_authenticated/saves/$saveId/'
+      path: '/'
+      fullPath: '/saves/$saveId/'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdIndexRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/academy': {
+      id: '/_authenticated/saves/$saveId/academy'
+      path: '/academy'
+      fullPath: '/saves/$saveId/academy'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdAcademyRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/analysis': {
+      id: '/_authenticated/saves/$saveId/analysis'
+      path: '/analysis'
+      fullPath: '/saves/$saveId/analysis'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdAnalysisRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/board': {
+      id: '/_authenticated/saves/$saveId/board'
+      path: '/board'
+      fullPath: '/saves/$saveId/board'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdBoardRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/calendar': {
+      id: '/_authenticated/saves/$saveId/calendar'
+      path: '/calendar'
+      fullPath: '/saves/$saveId/calendar'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdCalendarRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/career': {
+      id: '/_authenticated/saves/$saveId/career'
+      path: '/career'
+      fullPath: '/saves/$saveId/career'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdCareerRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/cup': {
+      id: '/_authenticated/saves/$saveId/cup'
+      path: '/cup'
+      fullPath: '/saves/$saveId/cup'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdCupRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/finances': {
+      id: '/_authenticated/saves/$saveId/finances'
+      path: '/finances'
+      fullPath: '/saves/$saveId/finances'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdFinancesRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/market': {
+      id: '/_authenticated/saves/$saveId/market'
+      path: '/market'
+      fullPath: '/saves/$saveId/market'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdMarketRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/medical': {
+      id: '/_authenticated/saves/$saveId/medical'
+      path: '/medical'
+      fullPath: '/saves/$saveId/medical'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdMedicalRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/news': {
+      id: '/_authenticated/saves/$saveId/news'
+      path: '/news'
+      fullPath: '/saves/$saveId/news'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdNewsRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/settings': {
+      id: '/_authenticated/saves/$saveId/settings'
+      path: '/settings'
+      fullPath: '/saves/$saveId/settings'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdSettingsRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/setup': {
+      id: '/_authenticated/saves/$saveId/setup'
+      path: '/setup'
+      fullPath: '/saves/$saveId/setup'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdSetupRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/squad': {
+      id: '/_authenticated/saves/$saveId/squad'
+      path: '/squad'
+      fullPath: '/saves/$saveId/squad'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdSquadRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/staff': {
+      id: '/_authenticated/saves/$saveId/staff'
+      path: '/staff'
+      fullPath: '/saves/$saveId/staff'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdStaffRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/table': {
+      id: '/_authenticated/saves/$saveId/table'
+      path: '/table'
+      fullPath: '/saves/$saveId/table'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdTableRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/tactics': {
+      id: '/_authenticated/saves/$saveId/tactics'
+      path: '/tactics'
+      fullPath: '/saves/$saveId/tactics'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdTacticsRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/clubs/$clubId': {
+      id: '/_authenticated/saves/$saveId/clubs/$clubId'
+      path: '/clubs/$clubId'
+      fullPath: '/saves/$saveId/clubs/$clubId'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdClubsClubIdRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/competitions/$competitionId': {
+      id: '/_authenticated/saves/$saveId/competitions/$competitionId'
+      path: '/competitions/$competitionId'
+      fullPath: '/saves/$saveId/competitions/$competitionId'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdCompetitionsCompetitionIdRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
+    '/_authenticated/saves/$saveId/players/$playerId': {
+      id: '/_authenticated/saves/$saveId/players/$playerId'
+      path: '/players/$playerId'
+      fullPath: '/saves/$saveId/players/$playerId'
+      preLoaderRoute: typeof AuthenticatedSavesSaveIdPlayersPlayerIdRouteImport
+      parentRoute: typeof AuthenticatedSavesSaveIdRoute
+    }
   }
 }
 
+interface AuthenticatedSavesSaveIdRouteChildren {
+  AuthenticatedSavesSaveIdAcademyRoute: typeof AuthenticatedSavesSaveIdAcademyRoute
+  AuthenticatedSavesSaveIdAnalysisRoute: typeof AuthenticatedSavesSaveIdAnalysisRoute
+  AuthenticatedSavesSaveIdBoardRoute: typeof AuthenticatedSavesSaveIdBoardRoute
+  AuthenticatedSavesSaveIdCalendarRoute: typeof AuthenticatedSavesSaveIdCalendarRoute
+  AuthenticatedSavesSaveIdCareerRoute: typeof AuthenticatedSavesSaveIdCareerRoute
+  AuthenticatedSavesSaveIdCupRoute: typeof AuthenticatedSavesSaveIdCupRoute
+  AuthenticatedSavesSaveIdFinancesRoute: typeof AuthenticatedSavesSaveIdFinancesRoute
+  AuthenticatedSavesSaveIdMarketRoute: typeof AuthenticatedSavesSaveIdMarketRoute
+  AuthenticatedSavesSaveIdMedicalRoute: typeof AuthenticatedSavesSaveIdMedicalRoute
+  AuthenticatedSavesSaveIdNewsRoute: typeof AuthenticatedSavesSaveIdNewsRoute
+  AuthenticatedSavesSaveIdSettingsRoute: typeof AuthenticatedSavesSaveIdSettingsRoute
+  AuthenticatedSavesSaveIdSetupRoute: typeof AuthenticatedSavesSaveIdSetupRoute
+  AuthenticatedSavesSaveIdSquadRoute: typeof AuthenticatedSavesSaveIdSquadRoute
+  AuthenticatedSavesSaveIdStaffRoute: typeof AuthenticatedSavesSaveIdStaffRoute
+  AuthenticatedSavesSaveIdTableRoute: typeof AuthenticatedSavesSaveIdTableRoute
+  AuthenticatedSavesSaveIdTacticsRoute: typeof AuthenticatedSavesSaveIdTacticsRoute
+  AuthenticatedSavesSaveIdIndexRoute: typeof AuthenticatedSavesSaveIdIndexRoute
+  AuthenticatedSavesSaveIdClubsClubIdRoute: typeof AuthenticatedSavesSaveIdClubsClubIdRoute
+  AuthenticatedSavesSaveIdCompetitionsCompetitionIdRoute: typeof AuthenticatedSavesSaveIdCompetitionsCompetitionIdRoute
+  AuthenticatedSavesSaveIdPlayersPlayerIdRoute: typeof AuthenticatedSavesSaveIdPlayersPlayerIdRoute
+}
+
+const AuthenticatedSavesSaveIdRouteChildren: AuthenticatedSavesSaveIdRouteChildren =
+  {
+    AuthenticatedSavesSaveIdAcademyRoute: AuthenticatedSavesSaveIdAcademyRoute,
+    AuthenticatedSavesSaveIdAnalysisRoute:
+      AuthenticatedSavesSaveIdAnalysisRoute,
+    AuthenticatedSavesSaveIdBoardRoute: AuthenticatedSavesSaveIdBoardRoute,
+    AuthenticatedSavesSaveIdCalendarRoute:
+      AuthenticatedSavesSaveIdCalendarRoute,
+    AuthenticatedSavesSaveIdCareerRoute: AuthenticatedSavesSaveIdCareerRoute,
+    AuthenticatedSavesSaveIdCupRoute: AuthenticatedSavesSaveIdCupRoute,
+    AuthenticatedSavesSaveIdFinancesRoute:
+      AuthenticatedSavesSaveIdFinancesRoute,
+    AuthenticatedSavesSaveIdMarketRoute: AuthenticatedSavesSaveIdMarketRoute,
+    AuthenticatedSavesSaveIdMedicalRoute: AuthenticatedSavesSaveIdMedicalRoute,
+    AuthenticatedSavesSaveIdNewsRoute: AuthenticatedSavesSaveIdNewsRoute,
+    AuthenticatedSavesSaveIdSettingsRoute:
+      AuthenticatedSavesSaveIdSettingsRoute,
+    AuthenticatedSavesSaveIdSetupRoute: AuthenticatedSavesSaveIdSetupRoute,
+    AuthenticatedSavesSaveIdSquadRoute: AuthenticatedSavesSaveIdSquadRoute,
+    AuthenticatedSavesSaveIdStaffRoute: AuthenticatedSavesSaveIdStaffRoute,
+    AuthenticatedSavesSaveIdTableRoute: AuthenticatedSavesSaveIdTableRoute,
+    AuthenticatedSavesSaveIdTacticsRoute: AuthenticatedSavesSaveIdTacticsRoute,
+    AuthenticatedSavesSaveIdIndexRoute: AuthenticatedSavesSaveIdIndexRoute,
+    AuthenticatedSavesSaveIdClubsClubIdRoute:
+      AuthenticatedSavesSaveIdClubsClubIdRoute,
+    AuthenticatedSavesSaveIdCompetitionsCompetitionIdRoute:
+      AuthenticatedSavesSaveIdCompetitionsCompetitionIdRoute,
+    AuthenticatedSavesSaveIdPlayersPlayerIdRoute:
+      AuthenticatedSavesSaveIdPlayersPlayerIdRoute,
+  }
+
+const AuthenticatedSavesSaveIdRouteWithChildren =
+  AuthenticatedSavesSaveIdRoute._addFileChildren(
+    AuthenticatedSavesSaveIdRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedSavesSaveIdRoute: typeof AuthenticatedSavesSaveIdRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedSavesSaveIdRoute: AuthenticatedSavesSaveIdRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

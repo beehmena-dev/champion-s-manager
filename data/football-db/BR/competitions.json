@@ -1,0 +1,16 @@
+[
+  {
+    "code": "D107191",
+    "name": "Brasileirão Série B",
+    "tier": 2,
+    "country": "BR",
+    "playable": true
+  },
+  {
+    "code": "D102423",
+    "name": "Brasileirão Série A",
+    "tier": 1,
+    "country": "BR",
+    "playable": true
+  }
+]

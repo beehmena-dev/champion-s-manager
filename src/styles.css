@@ -1,6 +1,10 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+/* Bandeiras reais em SVG (não emoji) — WebView2/Windows não renderiza
+   confiavelmente indicador regional de bandeira (confirmado no navegador
+   E no app desktop empacotado), flag-icons (MIT) resolve isso de vez. */
+@import "flag-icons/css/flag-icons.min.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -59,77 +63,103 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Superfície elevada — pra painéis aninhados dentro de um Card (ver
+     src/components/fm.tsx). Cria a 3ª camada de profundidade que faltava. */
+  --color-elevated: var(--elevated);
+
+  /* Cores por categoria — usadas em Pill, ícones de PageHeader e barras.
+     Semânticas, separadas do accent: ok/warn/danger = estado; info/strategy
+     = tipo de conteúdo (tática / planejamento). */
+  --color-ok: var(--ok);
+  --color-info: var(--info);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --color-strategy: var(--strategy);
 }
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --background: oklch(0.115 0.019 262);
+  --foreground: oklch(0.95 0.006 260);
+  --card: oklch(0.165 0.021 262);
+  --card-foreground: oklch(0.95 0.006 260);
+  --elevated: oklch(0.215 0.024 262);
+  --popover: oklch(0.165 0.021 262);
+  --popover-foreground: oklch(0.95 0.006 260);
+  --primary: oklch(0.72 0.17 162);
+  --primary-foreground: oklch(0.16 0.02 260);
+  --secondary: oklch(0.24 0.02 260);
+  --secondary-foreground: oklch(0.95 0.006 260);
+  --muted: oklch(0.17 0.018 260);
+  --muted-foreground: oklch(0.65 0.02 260);
+  --accent: oklch(0.26 0.035 260);
+  --accent-foreground: oklch(0.95 0.006 260);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.98 0.005 260);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.72 0.17 162);
+  --ok: oklch(0.72 0.17 162);
+  --info: oklch(0.72 0.13 233);
+  --warn: oklch(0.79 0.15 78);
+  --danger: oklch(0.68 0.19 20);
+  --strategy: oklch(0.7 0.16 300);
+  --chart-1: oklch(0.72 0.17 162);
+  --chart-2: oklch(0.68 0.15 220);
+  --chart-3: oklch(0.75 0.15 70);
+  --chart-4: oklch(0.63 0.26 300);
+  --chart-5: oklch(0.65 0.24 15);
+  --sidebar: oklch(0.12 0.025 262);
+  --sidebar-foreground: oklch(0.88 0.01 280);
+  --sidebar-primary: oklch(0.72 0.17 162);
+  --sidebar-primary-foreground: oklch(0.15 0.02 262);
+  --sidebar-accent: oklch(0.2 0.03 262);
+  --sidebar-accent-foreground: oklch(0.98 0.005 260);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.72 0.17 162);
 }
 
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --radius: 0.625rem;
+  --background: oklch(0.115 0.019 262);
+  --foreground: oklch(0.95 0.006 260);
+  --card: oklch(0.165 0.021 262);
+  --card-foreground: oklch(0.95 0.006 260);
+  --elevated: oklch(0.215 0.024 262);
+  --popover: oklch(0.165 0.021 262);
+  --popover-foreground: oklch(0.95 0.006 260);
+  --primary: oklch(0.72 0.17 162);
+  --primary-foreground: oklch(0.16 0.02 260);
+  --secondary: oklch(0.24 0.02 260);
+  --secondary-foreground: oklch(0.95 0.006 260);
+  --muted: oklch(0.17 0.018 260);
+  --muted-foreground: oklch(0.65 0.02 260);
+  --accent: oklch(0.26 0.035 260);
+  --accent-foreground: oklch(0.95 0.006 260);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.98 0.005 260);
   --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.72 0.17 162);
+  --ok: oklch(0.72 0.17 162);
+  --info: oklch(0.72 0.13 233);
+  --warn: oklch(0.79 0.15 78);
+  --danger: oklch(0.68 0.19 20);
+  --strategy: oklch(0.7 0.16 300);
+  --chart-1: oklch(0.72 0.17 162);
+  --chart-2: oklch(0.68 0.15 220);
+  --chart-3: oklch(0.75 0.15 70);
+  --chart-4: oklch(0.63 0.26 300);
+  --chart-5: oklch(0.65 0.24 15);
+  --sidebar: oklch(0.12 0.025 262);
+  --sidebar-foreground: oklch(0.88 0.01 280);
+  --sidebar-primary: oklch(0.72 0.17 162);
+  --sidebar-primary-foreground: oklch(0.15 0.02 262);
+  --sidebar-accent: oklch(0.2 0.03 262);
+  --sidebar-accent-foreground: oklch(0.98 0.005 260);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.72 0.17 162);
 }
 
 @layer base {
@@ -140,5 +170,39 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: "Chakra Petch", "Plus Jakarta Sans", system-ui, sans-serif;
+  }
+
+  /* Números tabulares em tabelas — visual de "planilha de dados" como no FM */
+  table {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .fm-eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted-foreground);
+  }
+
+  /* Folhinha de calendário virando — avançar dia(s) (f7-dayadvance). Cada
+     data reaplica esta animação ao remontar (a chave da folhinha muda). */
+  @keyframes fm-flip-page {
+    0% { transform: rotateX(-90deg); opacity: 0; }
+    60% { transform: rotateX(12deg); opacity: 1; }
+    100% { transform: rotateX(0deg); opacity: 1; }
+  }
+  .fm-flip-page {
+    animation: fm-flip-page 0.32s ease-out;
+    transform-origin: top center;
+    perspective: 600px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fm-flip-page { animation: none; }
   }
 }
