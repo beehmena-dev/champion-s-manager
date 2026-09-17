@@ -6,7 +6,7 @@
 -- owns_save(save_id) (players/clubs/competitions/matches/finance_entries/
 -- transfers) ficava inacessível via PostgREST local com
 -- "permission denied for function owns_save". A tabela saves (que usa
--- auth.uid()=user_id direto, sem passar por essa função) nunca expôs o
+-- public.current_uid()=user_id direto, sem passar por essa função) nunca expôs o
 -- problema — por isso passou despercebido nos testes anteriores de CRUD de
 -- save, que nunca chegaram a carregar jogadores/clubes de dentro de um save.
 GRANT EXECUTE ON FUNCTION public.owns_save(UUID) TO authenticated, service_role;

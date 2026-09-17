@@ -28,6 +28,6 @@ CREATE TABLE IF NOT EXISTS public.seed_library (
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.seed_library TO authenticated;
 GRANT ALL ON public.seed_library TO service_role;
 ALTER TABLE public.seed_library ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "own_seed_library" ON public.seed_library FOR ALL USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "own_seed_library" ON public.seed_library FOR ALL USING (public.current_uid() = user_id) WITH CHECK (public.current_uid() = user_id);
 
 NOTIFY pgrst, 'reload schema';

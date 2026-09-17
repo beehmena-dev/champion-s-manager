@@ -7,7 +7,7 @@ CREATE TABLE public.profiles (
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.profiles TO authenticated;
 GRANT ALL ON public.profiles TO service_role;
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "own_profile" ON public.profiles FOR ALL USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
+CREATE POLICY "own_profile" ON public.profiles FOR ALL USING (public.current_uid() = id) WITH CHECK (public.current_uid() = id);
 
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
@@ -31,11 +31,11 @@ CREATE TABLE public.saves (
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.saves TO authenticated;
 GRANT ALL ON public.saves TO service_role;
 ALTER TABLE public.saves ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "own_saves" ON public.saves FOR ALL USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "own_saves" ON public.saves FOR ALL USING (public.current_uid() = user_id) WITH CHECK (public.current_uid() = user_id);
 
 CREATE OR REPLACE FUNCTION public.owns_save(_save_id UUID)
 RETURNS BOOLEAN LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
-  SELECT EXISTS (SELECT 1 FROM public.saves WHERE id = _save_id AND user_id = auth.uid());
+  SELECT EXISTS (SELECT 1 FROM public.saves WHERE id = _save_id AND user_id = public.current_uid());
 $$;
 
 CREATE TABLE public.competitions (
