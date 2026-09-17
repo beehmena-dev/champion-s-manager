@@ -1,11 +1,15 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { LOCAL_USER_ID } from "@/lib/desktop-mode";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
 
-// App 100% desktop, sem login — o único "usuário" já é o perfil local fixo.
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
-  beforeLoad: async () => {
-    return { user: { id: LOCAL_USER_ID } };
+  beforeLoad: async ({ location }) => {
+    const { data } = await supabase.auth.getSession();
+    const user = data.session?.user;
+    if (!user) {
+      throw redirect({ to: "/auth", search: { redirect: location.href } });
+    }
+    return { user: { id: user.id } };
   },
   component: () => <Outlet />,
 });
