@@ -15,6 +15,13 @@
       "when": 1789655783070,
       "tag": "0001_grant_sandbox_auth_usage",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789655967058,
+      "tag": "0002_current_uid_wrapper",
+      "breakpoints": true
     }
   ]
 }
