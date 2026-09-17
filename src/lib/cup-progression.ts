@@ -176,7 +176,7 @@ export async function progressCup(saveId: string): Promise<void> {
     // aqui (filtro .eq("resolved", false) acima), então away_club_id é
     // garantido não-nulo neste ponto.
     if (homeGoals !== awayGoals) {
-      winnerId = homeGoals > awayGoals ? tie.home_club_id : tie.away_club_id!;
+      winnerId = (homeGoals > awayGoals ? tie.home_club_id : tie.away_club_id)!;
     } else {
       // Prorrogação (Lei 7) — SEMPRE antes de pênaltis, nunca pulada direto
       // pro sorteio (era assim antes desta mudança). A partida que decide é
@@ -247,10 +247,10 @@ export async function progressCup(saveId: string): Promise<void> {
       }
 
       if (homeGoals !== awayGoals) {
-        winnerId = homeGoals > awayGoals ? tie.home_club_id : tie.away_club_id!;
+        winnerId = (homeGoals > awayGoals ? tie.home_club_id : tie.away_club_id)!;
       } else {
         const [{ data: homePlayers }, { data: awayPlayers }] = await Promise.all([
-          supabase.from("players").select("position, attributes").eq("club_id", tie.home_club_id),
+          supabase.from("players").select("position, attributes").eq("club_id", tie.home_club_id!),
           supabase.from("players").select("position, attributes").eq("club_id", tie.away_club_id!),
         ]);
         const home = penaltyInputsFromSquad((homePlayers ?? []) as any);
@@ -258,7 +258,7 @@ export async function progressCup(saveId: string): Promise<void> {
         const shootout = simulatePenalties(home.gkReflexes, away.gkReflexes, home.finishingAvg, away.finishingAvg);
         penaltyHome = shootout.home;
         penaltyAway = shootout.away;
-        winnerId = shootout.winner === "home" ? tie.home_club_id : tie.away_club_id!;
+        winnerId = (shootout.winner === "home" ? tie.home_club_id : tie.away_club_id)!;
         tieBreakNote = `${tieBreakNote ? tieBreakNote + " " : ""}Pênaltis: ${shootout.home}-${shootout.away}.`;
       }
     }
