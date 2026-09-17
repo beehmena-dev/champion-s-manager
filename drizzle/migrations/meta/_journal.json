@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1789655625083,
+      "tag": "0000_grant_sandbox_schema_access",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789655783070,
+      "tag": "0001_grant_sandbox_auth_usage",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789655967058,
+      "tag": "0002_current_uid_wrapper",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1789656134187,
+      "tag": "0003_auth_user_profile_trigger",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1789656326089,
+      "tag": "0004_cup_ties",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1789656507309,
+      "tag": "0005_competition_champion_columns",
+      "breakpoints": true
+    }
+  ]
+}

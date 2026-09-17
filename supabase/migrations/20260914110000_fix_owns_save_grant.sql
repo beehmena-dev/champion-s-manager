@@ -1,0 +1,12 @@
+-- Bug pré-existente achado ao testar a feature de química de elenco (não
+-- relacionado a ela): a migration 20260703134906 revogou EXECUTE de
+-- owns_save() de PUBLIC e anon, mas nunca concedeu de volta pra
+-- authenticated — como REVOKE FROM PUBLIC remove o privilégio implícito de
+-- QUALQUER papel (authenticated incluso), toda tabela cuja RLS chama
+-- owns_save(save_id) (players/clubs/competitions/matches/finance_entries/
+-- transfers) ficava inacessível via PostgREST local com
+-- "permission denied for function owns_save". A tabela saves (que usa
+-- public.current_uid()=user_id direto, sem passar por essa função) nunca expôs o
+-- problema — por isso passou despercebido nos testes anteriores de CRUD de
+-- save, que nunca chegaram a carregar jogadores/clubes de dentro de um save.
+GRANT EXECUTE ON FUNCTION public.owns_save(UUID) TO authenticated, service_role;
