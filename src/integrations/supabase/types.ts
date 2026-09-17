@@ -242,6 +242,8 @@ export type Database = {
       }
       competitions: {
         Row: {
+          champion_club_id: string | null
+          champion_season: number | null
           code: string
           country: string | null
           created_at: string
@@ -256,6 +258,8 @@ export type Database = {
           type: string
         }
         Insert: {
+          champion_club_id?: string | null
+          champion_season?: number | null
           code: string
           country?: string | null
           created_at?: string
@@ -270,6 +274,8 @@ export type Database = {
           type?: string
         }
         Update: {
+          champion_club_id?: string | null
+          champion_season?: number | null
           code?: string
           country?: string | null
           created_at?: string

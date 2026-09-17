@@ -36,6 +36,13 @@
       "when": 1789656326089,
       "tag": "0004_cup_ties",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1789656507309,
+      "tag": "0005_competition_champion_columns",
+      "breakpoints": true
     }
   ]
 }
