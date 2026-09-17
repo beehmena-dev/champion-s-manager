@@ -29,6 +29,13 @@
       "when": 1789656134187,
       "tag": "0003_auth_user_profile_trigger",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1789656326089,
+      "tag": "0004_cup_ties",
+      "breakpoints": true
     }
   ]
 }

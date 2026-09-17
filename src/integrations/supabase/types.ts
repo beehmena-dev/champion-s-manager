@@ -363,6 +363,78 @@ export type Database = {
           },
         ]
       }
+      cup_ties: {
+        Row: {
+          away_club_id: string | null
+          competition_id: string
+          created_at: string
+          home_club_id: string | null
+          id: string
+          is_single_leg: boolean
+          leg1_match_id: string | null
+          leg2_match_id: string | null
+          penalty_away: number | null
+          penalty_home: number | null
+          resolved: boolean
+          round_index: number
+          round_name: string | null
+          save_id: string
+          season: number
+          winner_club_id: string | null
+        }
+        Insert: {
+          away_club_id?: string | null
+          competition_id: string
+          created_at?: string
+          home_club_id?: string | null
+          id?: string
+          is_single_leg?: boolean
+          leg1_match_id?: string | null
+          leg2_match_id?: string | null
+          penalty_away?: number | null
+          penalty_home?: number | null
+          resolved?: boolean
+          round_index?: number
+          round_name?: string | null
+          save_id: string
+          season: number
+          winner_club_id?: string | null
+        }
+        Update: {
+          away_club_id?: string | null
+          competition_id?: string
+          created_at?: string
+          home_club_id?: string | null
+          id?: string
+          is_single_leg?: boolean
+          leg1_match_id?: string | null
+          leg2_match_id?: string | null
+          penalty_away?: number | null
+          penalty_home?: number | null
+          resolved?: boolean
+          round_index?: number
+          round_name?: string | null
+          save_id?: string
+          season?: number
+          winner_club_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cup_ties_competition_id_fkey"
+            columns: ["competition_id"]
+            isOneToOne: false
+            referencedRelation: "competitions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cup_ties_save_id_fkey"
+            columns: ["save_id"]
+            isOneToOne: false
+            referencedRelation: "saves"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       finance_entries: {
         Row: {
           amount: number
