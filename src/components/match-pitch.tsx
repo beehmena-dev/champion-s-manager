@@ -276,9 +276,11 @@ export function MatchPitch({
   };
 
   const homePrimary = homeColors?.primary ?? "#3b82f6";
-  const awayPrimary = awayColors?.primary ?? "#e11d48";
   const homeSecondary = homeColors?.secondary ?? "#0f172a";
   const awaySecondary = awayColors?.secondary ?? "#0f172a";
+  // Camisa do visitante já resolvendo conflito de cor com o mandante (ver
+  // awayKitColor): dois times vermelhos deixavam as fichas indistinguíveis.
+  const awayPrimary = awayKitColor(homePrimary, awayColors?.primary ?? "#e11d48", awaySecondary);
 
   const isFinal = phase === "done";
   const nextCutClock = phase === "cut" && segments[segIndex + 1] ? `${Math.floor(segments[segIndex + 1].start)}'` : "";
