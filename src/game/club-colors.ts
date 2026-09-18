@@ -46,3 +46,30 @@ export function clubColors(club: { id: string; primary_color?: string | null; se
     secondary: club.secondary_color ?? fallback.secondary,
   };
 }
+
+function rgb(hex: string): [number, number, number] {
+  let h = hex.replace("#", "");
+  if (h.length === 3) h = h.split("").map((c) => c + c).join("");
+  return [parseInt(h.slice(0, 2), 16) || 0, parseInt(h.slice(2, 4), 16) || 0, parseInt(h.slice(4, 6), 16) || 0];
+}
+
+/** Distância simples entre duas cores (0-441). */
+export function colorDistance(a: string, b: string): number {
+  const [r1, g1, b1] = rgb(a);
+  const [r2, g2, b2] = rgb(b);
+  return Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
+}
+
+/**
+ * Uniforme do visitante no campo 2D. Quando as duas camisas são parecidas
+ * (Flamengo × Internacional, os dois vermelhos), o FM manda o visitante de
+ * uniforme alternativo — sem isso, as fichas dos dois times ficam idênticas e
+ * é impossível acompanhar a partida. Tenta a cor secundária do visitante e,
+ * se ela também conflitar, cai em branco ou preto.
+ */
+export function awayKitColor(homePrimary: string, awayPrimary: string, awaySecondary: string): string {
+  const MIN = 90;
+  if (colorDistance(homePrimary, awayPrimary) >= MIN) return awayPrimary;
+  if (colorDistance(homePrimary, awaySecondary) >= MIN) return awaySecondary;
+  return colorDistance(homePrimary, "#ffffff") >= MIN ? "#ffffff" : "#111827";
+}
