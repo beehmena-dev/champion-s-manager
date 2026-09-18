@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { MatchEvent } from "@/game/types";
-import { buildHighlights, HL_CUT_MS, HL_SPEED, type HighlightSegment } from "@/game/highlights";
+import { buildHighlights, HL_CUT_MS, HL_SPEED, type HighlightMode, type HighlightSegment } from "@/game/highlights";
 
 // -----------------------------------------------------------------------------
 // Máquina de estado de "melhores momentos", extraída do Live3DView original
@@ -25,20 +25,23 @@ export interface GoalReplayState {
 }
 
 export function useHighlightPlayback({
-  events, initialMinute, maxMinute, speed = HL_SPEED, cutMs = HL_CUT_MS, onReachMax, resolveScorer,
+  events, initialMinute, maxMinute, speed = HL_SPEED, cutMs = HL_CUT_MS, mode = "key", onReachMax, resolveScorer,
 }: {
   events: MatchEvent[];
   initialMinute: number;
   maxMinute: number;
   speed?: number;
   cutMs?: number;
+  // Quais lances entram na reprodução: chave (gol/grande chance/expulsão),
+  // estendido (+ cartão/defesa/lesão/impedimento/VAR) ou partida completa.
+  mode?: HighlightMode;
   onReachMax?: () => void;
   // Resolve o nome do artilheiro pro banner/reprise de gol (playerNameById.get, tipicamente).
   resolveScorer?: (playerId: string | undefined, fallbackText: string) => string;
 }) {
   const segments = useMemo(
-    () => buildHighlights(events, initialMinute, maxMinute),
-    [events, initialMinute, maxMinute],
+    () => buildHighlights(events, initialMinute, maxMinute, mode),
+    [events, initialMinute, maxMinute, mode],
   );
 
   const [segIndex, setSegIndex] = useState(0);
@@ -52,6 +55,25 @@ export function useHighlightPlayback({
   const doneRef = useRef(false);
   const prevMinRef = useRef(minute);
   const replayedRef = useRef<Set<number>>(new Set());
+
+  // Trocar o modo de destaque no meio da partida reconstrói a lista de
+  // lances — o relógio precisa voltar pro começo do primeiro lance do modo
+  // novo, senão `segIndex` aponta pra um segmento que não existe mais.
+  const modeRef = useRef(mode);
+  useEffect(() => {
+    if (modeRef.current === mode) return;
+    modeRef.current = mode;
+    replayedRef.current.clear();
+    doneRef.current = false;
+    const first = segments[0]?.start ?? initialMinute;
+    prevMinRef.current = first;
+    setSegIndex(0);
+    setMinute(first);
+    setReplay(null);
+    setPhase(segments.length ? "playing" : "empty");
+    setPlaying(true);
+  }, [mode, segments, initialMinute]);
+
 
   // Avanço do relógio: dentro do lance atual, no ritmo normal, até o fim dele.
   useEffect(() => {

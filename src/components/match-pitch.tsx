@@ -2,9 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { MatchResult } from "@/game/types";
 import { computeBallPosition, computePlayerPositions, currentCaption, TEXTURE_ANIM_WINDOW } from "@/game/live-positions";
 import { liveMatchStats } from "@/game/live-stats";
-import { contrastText } from "@/game/club-colors";
+import { awayKitColor, contrastText } from "@/game/club-colors";
 import { Button } from "@/components/ui/button";
-import { HL_SPEED } from "@/game/highlights";
+import { HL_SPEED, type HighlightMode } from "@/game/highlights";
 import { useHighlightPlayback } from "@/hooks/use-highlight-playback";
 import { usePlayerMotion } from "@/hooks/use-player-motion";
 import { MatchAudioEngine } from "@/lib/match-audio";
@@ -58,6 +58,19 @@ const SPEED_OPTIONS = { lento: HL_SPEED * 0.65, normal: HL_SPEED, rapido: HL_SPE
 // desativado o som.
 const AUDIO_MUTED_LS_KEY = "footymanager-3d-muted";
 
+// Preferência de modo de lances (chave/estendido/completa), lembrada entre partidas.
+const MODE_LS_KEY = "footymanager-highlight-mode";
+
+/** Sigla de 3 letras do clube pro placar (CAM, FLA, SAO...). */
+function clubAbbrev(name: string): string {
+  const words = name.replace(/[^\p{L}\p{N} ]/gu, " ").split(/\s+/).filter(Boolean);
+  const skip = new Set(["de", "da", "do", "dos", "das", "e", "fc", "ec", "sc", "ac", "cr", "clube", "futebol"]);
+  const main = words.filter((w) => !skip.has(w.toLowerCase()));
+  const src = main.length ? main : words;
+  if (src.length >= 3) return src.slice(0, 3).map((w) => w[0]!.toUpperCase()).join("");
+  return (src[0] ?? name).slice(0, 3).toUpperCase();
+}
+
 // x/y do nosso modelo (0-100, y=100 é o gol do mandante) → % de tela num
 // campo em PAISAGEM (mandante ataca da esquerda pra direita).
 function toScreen(x: number, y: number): { left: number; top: number } {
@@ -88,12 +101,20 @@ export function MatchPitch({
   }, [result.homeLineup, result.awayLineup]);
 
   const [speedKey, setSpeedKey] = useState<keyof typeof SPEED_OPTIONS>("normal");
+  // Modo de lances (chave / estendido / partida completa), igual ao FM real.
+  // Preferência fica salva entre partidas.
+  const [mode, setMode] = useState<HighlightMode>(() => {
+    try {
+      const v = localStorage.getItem(MODE_LS_KEY);
+      return v === "extended" || v === "full" ? v : "key";
+    } catch { return "key"; }
+  });
 
   const {
     segments, segIndex, minute, effMin, playing, setPlaying, phase, replay,
     skipToNext, rewatch,
   } = useHighlightPlayback({
-    events, initialMinute, maxMinute, speed: SPEED_OPTIONS[speedKey], onReachMax,
+    events, initialMinute, maxMinute, speed: SPEED_OPTIONS[speedKey], mode, onReachMax,
     resolveScorer: (playerId, fallback) => (playerId && playerNameById.get(playerId)) || fallback,
   });
 
@@ -255,9 +276,11 @@ export function MatchPitch({
   };
 
   const homePrimary = homeColors?.primary ?? "#3b82f6";
-  const awayPrimary = awayColors?.primary ?? "#e11d48";
   const homeSecondary = homeColors?.secondary ?? "#0f172a";
   const awaySecondary = awayColors?.secondary ?? "#0f172a";
+  // Camisa do visitante já resolvendo conflito de cor com o mandante (ver
+  // awayKitColor): dois times vermelhos deixavam as fichas indistinguíveis.
+  const awayPrimary = awayKitColor(homePrimary, awayColors?.primary ?? "#e11d48", awaySecondary);
 
   const isFinal = phase === "done";
   const nextCutClock = phase === "cut" && segments[segIndex + 1] ? `${Math.floor(segments[segIndex + 1].start)}'` : "";
@@ -286,14 +309,35 @@ export function MatchPitch({
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between text-sm font-medium">
-        <span className="inline-flex items-center gap-1.5">
-          <span className="inline-block size-2.5 rounded-[3px]" style={{ background: homePrimary }} />
-          {homeName} {liveHome} × {liveAway} {awayName}
-          <span className="inline-block size-2.5 rounded-[3px]" style={{ background: awayPrimary }} />
+      {/* Placar estilo transmissão do FM: sigla + cor de cada clube nas
+          pontas, gols no centro e cronômetro com o período atual. */}
+      <div className="mx-auto flex w-fit items-stretch overflow-hidden rounded-md border text-sm font-semibold shadow-sm">
+        <span
+          className="flex items-center gap-2 px-3 py-1.5"
+          style={{ background: homePrimary, color: contrastText(homePrimary) }}
+        >
+          <span className="font-mono tracking-wider">{clubAbbrev(homeName)}</span>
+          <span className="hidden sm:inline font-normal opacity-90">{homeName}</span>
         </span>
-        <span className="text-muted-foreground font-mono">
-          {replay ? "REPRISE" : `${Math.min(maxMinute, Math.floor(minute))}'`}
+        <span className="flex items-center gap-2 bg-background px-3 py-1.5 font-mono text-base">
+          {liveHome} <span className="text-muted-foreground">:</span> {liveAway}
+        </span>
+        <span
+          className="flex items-center gap-2 px-3 py-1.5"
+          style={{ background: awayPrimary, color: contrastText(awayPrimary) }}
+        >
+          <span className="hidden sm:inline font-normal opacity-90">{awayName}</span>
+          <span className="font-mono tracking-wider">{clubAbbrev(awayName)}</span>
+        </span>
+        <span className="flex items-center gap-1.5 border-l bg-elevated/40 px-3 py-1.5 font-mono text-xs">
+          {replay ? (
+            <span className="text-destructive">REPRISE</span>
+          ) : (
+            <>
+              <span>{Math.min(maxMinute, Math.floor(minute))}'</span>
+              <span className="text-muted-foreground">{maxMinute > 45 ? "2ºT" : "1ºT"}</span>
+            </>
+          )}
         </span>
       </div>
 
@@ -449,6 +493,20 @@ export function MatchPitch({
         >
           {muted ? <VolumeX className="size-3.5" /> : <Volume2 className="size-3.5" />}
         </Button>
+        <select
+          className="bg-transparent border rounded px-1.5 py-1 text-xs"
+          value={mode}
+          onChange={(e) => {
+            const v = e.target.value as HighlightMode;
+            setMode(v);
+            try { localStorage.setItem(MODE_LS_KEY, v); } catch { /* sem storage, segue */ }
+          }}
+          title="Quanto da partida você quer assistir"
+        >
+          <option value="key">Lances-chave</option>
+          <option value="extended">Lances estendidos</option>
+          <option value="full">Partida completa</option>
+        </select>
         <select
           className="bg-transparent border rounded px-1.5 py-1 text-xs"
           value={speedKey}
