@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { MatchResult } from "@/game/types";
 import { computeBallPosition, computePlayerPositions, currentCaption, TEXTURE_ANIM_WINDOW } from "@/game/live-positions";
 import { liveMatchStats } from "@/game/live-stats";
-import { contrastText } from "@/game/club-colors";
+import { awayKitColor, contrastText } from "@/game/club-colors";
 import { Button } from "@/components/ui/button";
 import { HL_SPEED, type HighlightMode } from "@/game/highlights";
 import { useHighlightPlayback } from "@/hooks/use-highlight-playback";
