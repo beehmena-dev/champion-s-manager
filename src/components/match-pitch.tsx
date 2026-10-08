@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { MatchResult } from "@/game/types";
-import { computeBallPosition, computePlayerPositions, currentCaption, TEXTURE_ANIM_WINDOW } from "@/game/live-positions";
+import { currentCaption, TEXTURE_ANIM_WINDOW } from "@/game/live-positions";
 import { liveMatchStats } from "@/game/live-stats";
 import { awayKitColor, contrastText } from "@/game/club-colors";
 import { Button } from "@/components/ui/button";
 import { HL_SPEED, type HighlightMode } from "@/game/highlights";
 import { useHighlightPlayback } from "@/hooks/use-highlight-playback";
-import { usePlayerMotion } from "@/hooks/use-player-motion";
 import { useEngineStream } from "@/hooks/use-engine-stream";
 import { MatchAudioEngine } from "@/lib/match-audio";
 import { Volume2, VolumeX } from "lucide-react";
@@ -187,14 +186,6 @@ export function MatchPitch({
     return { liveHome: h, liveAway: a };
   }, [visibleEvents]);
 
-  const ballLegacy = useMemo(
-    () => computeBallPosition(
-      events, effMin, homePossessionPct,
-      result.homeLineup ?? [], result.awayLineup ?? [], result.homeFormation, result.awayFormation,
-    ),
-    [events, effMin, homePossessionPct, result],
-  );
-
   function highlightFor(playerId: string): "goal" | "yellow" | "red" | "injury" | null {
     for (const e of events) {
       if (e.playerId !== playerId) continue;
@@ -235,20 +226,11 @@ export function MatchPitch({
   // O que renderizamos de verdade (`dots`, abaixo) é esse alvo perseguido
   // com posição+velocidade reais (ver src/hooks/use-player-motion.ts) — sem
   // teleporte entre frames, com separação garantida entre jogadores.
-  const targetDots = useMemo(() => computePlayerPositions(
-    result.homeLineup ?? [], result.awayLineup ?? [],
-    result.homeFormation ?? "4-3-3", result.awayFormation ?? "4-3-3",
-    effMin, events, homePossessionPct, result.texture ?? [],
-  ), [result.homeLineup, result.awayLineup, result.homeFormation, result.awayFormation, effMin, events, homePossessionPct, result.texture]);
-  // Reseta (snap direto pro alvo, sem perseguição) exatamente nos pontos de
-  // corte reais do sistema: troca de lance e início/fim de reprise de gol.
   const resetKey = `${segIndex}:${replay ? `replay-${replay.goalMin}` : "live"}`;
-  const legacyDots = usePlayerMotion(targetDots, resetKey);
-  // Encenação em worker (fase 1): posições a 60/30 por segundo interpoladas.
+  // Fonte única: snapshots do worker (SAB ou mensagem), interpolados por quadro.
   const stream = useEngineStream({ result, effMin, rate: playing && phase === "playing" ? 1 : 0, resetKey });
-  const useStream = !!stream.frame && stream.frame.dots.length === legacyDots.length;
-  const dots = useStream ? stream.frame!.dots : legacyDots;
-  const ball = useStream ? stream.frame!.ball : ballLegacy;
+  const dots = stream.frame?.dots ?? [];
+  const ball = stream.frame?.ball ?? { x: 50, y: 50 };
 
   const caption = useMemo(
     () => (phase === "playing" ? currentCaption(events, effMin, homeName, awayName, homePossessionPct) : null),
@@ -423,7 +405,7 @@ export function MatchPitch({
                 // então uma transição CSS longa só reencadeava atrás do dado
                 // novo a cada frame (~16ms) e deixava o movimento com um
                 // rastro de "borrão"/atraso em vez de acompanhar de perto.
-                style={{ left: `${left}%`, top: `${top}%`, transform: "translate(-50%, -50%)", transition: "left 0.12s linear, top 0.12s linear" }}
+                style={{ left: `${left}%`, top: `${top}%`, transform: "translate(-50%, -50%)" }}
               >
                 <div
                   className={`flex items-center justify-center rounded-full border-2 font-black shadow-lg ${hl ? "animate-pulse" : ""}`}
@@ -451,7 +433,7 @@ export function MatchPitch({
                 className="absolute z-20 rounded-full border-2 border-black bg-white shadow-lg"
                 style={{
                   left: `${left}%`, top: `${top}%`, width: 9, height: 9,
-                  transform: "translate(-50%, -50%)", transition: "left 0.12s linear, top 0.12s linear",
+                  transform: "translate(-50%, -50%)",
                   boxShadow: "0 0 7px 2px rgba(34,211,238,0.55)",
                 }}
               />
