@@ -495,6 +495,9 @@ export function MatchPitch({
           <option value="extended">Lances estendidos</option>
           <option value="full">Partida completa</option>
         </select>
+        <span data-testid="engine-fps" className="text-[10px] tabular-nums text-muted-foreground">
+          {stream.fps} FPS · {stream.compat ? "compat." : "SAB"}
+        </span>
         <select
           className="bg-transparent border rounded px-1.5 py-1 text-xs"
           value={speedKey}
