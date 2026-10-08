@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { HL_SPEED, type HighlightMode } from "@/game/highlights";
 import { useHighlightPlayback } from "@/hooks/use-highlight-playback";
 import { usePlayerMotion } from "@/hooks/use-player-motion";
+import { useEngineStream } from "@/hooks/use-engine-stream";
 import { MatchAudioEngine } from "@/lib/match-audio";
 import { Volume2, VolumeX } from "lucide-react";
 
@@ -186,7 +187,7 @@ export function MatchPitch({
     return { liveHome: h, liveAway: a };
   }, [visibleEvents]);
 
-  const ball = useMemo(
+  const ballLegacy = useMemo(
     () => computeBallPosition(
       events, effMin, homePossessionPct,
       result.homeLineup ?? [], result.awayLineup ?? [], result.homeFormation, result.awayFormation,
@@ -242,7 +243,12 @@ export function MatchPitch({
   // Reseta (snap direto pro alvo, sem perseguição) exatamente nos pontos de
   // corte reais do sistema: troca de lance e início/fim de reprise de gol.
   const resetKey = `${segIndex}:${replay ? `replay-${replay.goalMin}` : "live"}`;
-  const dots = usePlayerMotion(targetDots, resetKey);
+  const legacyDots = usePlayerMotion(targetDots, resetKey);
+  // Encenação em worker (fase 1): posições a 60/30 por segundo interpoladas.
+  const stream = useEngineStream({ result, effMin, rate: playing && phase === "playing" ? 1 : 0, resetKey });
+  const useStream = !!stream.frame && stream.frame.dots.length === legacyDots.length;
+  const dots = useStream ? stream.frame!.dots : legacyDots;
+  const ball = useStream ? stream.frame!.ball : ballLegacy;
 
   const caption = useMemo(
     () => (phase === "playing" ? currentCaption(events, effMin, homeName, awayName, homePossessionPct) : null),
