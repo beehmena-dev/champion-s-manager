@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { MatchResult } from "@/game/types";
 import type { LiveDot } from "@/game/live-positions";
 import { makeSnapshot, MAX_PLAYERS, RING_SLOTS, type EngineMessage } from "@/game/engine-sab";
-import { createSnapshotSource, SabSource, type SnapshotSource } from "@/game/snapshot-source";
+import { createSnapshotSource, MessageSource, SabSource, type SnapshotSource } from "@/game/snapshot-source";
 
 // -----------------------------------------------------------------------------
 // Lado da main: cria o worker da encenação uma vez, envia dados/relógio, e a
@@ -72,8 +72,13 @@ export function useEngineStream({ result, effMin, rate, resetKey }: {
   }, [rate]);
   // Ressincroniza o relógio da encenação com o relógio do HUD (evita deriva).
   useEffect(() => {
+    let lastM = effMinRef.current, lastT = performance.now();
     const t = setInterval(() => {
-      workerRef.current?.postMessage({ type: "clock", minute: effMinRef.current, rate: rateRef.current, reset: false });
+      const now = performance.now(), m = effMinRef.current;
+      const measured = Math.max(0, Math.min(10, (m - lastM) / ((now - lastT) / 1000)));
+      lastM = m; lastT = now;
+      const r = rateRef.current > 0 ? measured : 0;
+      workerRef.current?.postMessage({ type: "clock", minute: m, rate: r, reset: false });
     }, 250);
     return () => clearInterval(t);
   }, []);
@@ -121,10 +126,4 @@ export function useEngineStream({ result, effMin, rate, resetKey }: {
   return { frame, fps, compat };
 }
 
-function createSnapshotSourceFallback(): SnapshotSource {
-  // Import local evita ciclo; MessageSource é a alternativa de compatibilidade.
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  return new (class extends (Object as any) {})() && new (require_message())();
-}
-function require_message() { return MessageSourceRef; }
-import { MessageSource as MessageSourceRef } from "@/game/snapshot-source";
+function createSnapshotSourceFallback(): SnapshotSource { return new MessageSource(); }
